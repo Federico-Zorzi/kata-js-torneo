@@ -161,14 +161,6 @@ const fightersAfterQualifications = fightersAfterWorkout.filter(
 // console.log("fightersAfterQualifications", fightersAfterQualifications);
 
 /* FASE COMBATTIMENTO */
-let fightersAfterEveryPhases = [...fightersAfterQualifications];
-console.log(
-  `
-phase 0
-`,
-  fightersAfterEveryPhases
-);
-
 const fightingPhase = (fightersArray) => {
   const fightersForNextRound = [];
   fightersArray.forEach((fighter, index) => {
@@ -177,11 +169,10 @@ const fightingPhase = (fightersArray) => {
         const nextFighter = fightersArray[index + 1];
 
         console.log(
-          index,
-          `${fighter.name} (power/${fighter.power}) vs ${nextFighter.name} (power/${nextFighter.power})`
-        );
-        console.log(
-          `Il vincitore di questo round è: ${
+          `${fighter.name} (power/${fighter.power}) vs ${
+            nextFighter.name
+          } (power/${nextFighter.power})
+Il vincitore di questo round è: ${
             fighter.power > nextFighter.power ? fighter.name : nextFighter.name
           }`
         );
@@ -190,9 +181,9 @@ const fightingPhase = (fightersArray) => {
           ? fightersForNextRound.push(fighter)
           : fightersForNextRound.push(nextFighter);
       } else {
-        console.log(index, `${fighter.name} vs ${bot.name}`);
         console.log(
-          `Il vincitore di questo round è: ${
+          `${fighter.name} vs ${bot.name}
+Il vincitore di questo round è: ${
             fighter.power > bot.power ? fighter.name : bot.name
           }`
         );
@@ -205,20 +196,21 @@ const fightingPhase = (fightersArray) => {
 };
 
 let phase = 1;
+let fightersAfterEveryPhases = [...fightersAfterQualifications];
 
-fightersAfterEveryPhases = fightingPhase(fightersAfterEveryPhases);
-console.log(`phase ${phase}`, fightersAfterEveryPhases);
+const runTournamentFights = () => {
+  if (fightersAfterEveryPhases.length <= 1) {
+    console.log(
+      `🏆 Il vincitore del torneo è: ${fightersAfterEveryPhases[0].name}`
+    );
+    return;
+  }
 
-while (fightersAfterEveryPhases.length > 1) {
+  console.log(`phase ${phase}`, fightersAfterEveryPhases);
   fightersAfterEveryPhases = fightingPhase(fightersAfterEveryPhases);
-  console.log(
-    `
-phase ${phase}
-`,
-    fightersAfterEveryPhases
-  );
-
   phase++;
-}
 
-console.log(`Il vincitore del torneo è: ${fightersAfterEveryPhases[0].name}`);
+  setTimeout(runTournamentFights, 1000);
+};
+
+runTournamentFights();
