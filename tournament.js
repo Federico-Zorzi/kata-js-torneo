@@ -1,3 +1,5 @@
+console.time("time");
+
 const fighters = [
   {
     name: "Freezer",
@@ -168,10 +170,15 @@ const fightingPhase = (fightersArray) => {
       if (index !== fightersArray.length - 1) {
         const nextFighter = fightersArray[index + 1];
 
+        console.table([
+          fighter.name,
+          fighter.power,
+          nextFighter.name,
+          nextFighter.power,
+        ]);
+
         console.log(
-          `${fighter.name} (power/${fighter.power}) vs ${
-            nextFighter.name
-          } (power/${nextFighter.power})
+          `
 Il vincitore di questo round è: ${
             fighter.power > nextFighter.power ? fighter.name : nextFighter.name
           }`
@@ -181,7 +188,7 @@ Il vincitore di questo round è: ${
           ? fightersForNextRound.push(fighter)
           : fightersForNextRound.push(nextFighter);
       } else {
-        console.log(
+        console.warn(
           `${fighter.name} vs ${bot.name}
 Il vincitore di questo round è: ${
             fighter.power > bot.power ? fighter.name : bot.name
@@ -203,6 +210,8 @@ const runTournamentFights = () => {
     console.log(
       `🏆 Il vincitore del torneo è: ${fightersAfterEveryPhases[0].name}`
     );
+    console.timeEnd("time");
+
     return;
   }
 
